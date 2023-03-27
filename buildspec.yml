@@ -7,6 +7,9 @@ phases:
     commands:
       - echo "Creating vault password file"
       - echo $VAULTPASSWORD > vaultpasswordfile
+      - cat vaultpasswordfile
+      - echo "Testing folder"
+      - ls -al
       - echo "Installing ansible"
       - pip install ansible==2.9.6
       - echo "Installing Packer"
@@ -19,8 +22,7 @@ phases:
       - ./packer init -upgrade packer.pkr.hcl
       - echo "Validating the Packer template"
       - ./packer validate packer.pkr.hcl
-      - echo "Testing folder"
-      - ls -al
+
   build:
     commands:
        - echo "Building the Packer template"
