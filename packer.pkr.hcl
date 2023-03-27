@@ -7,7 +7,9 @@ packer {
   }
 }
 source "amazon-ebs" "iiq-ami" {
-  ami_name      = "iiq-testbuild-ami"
+  ami_name = "iiq-testbuild-ami"
+  force_deregister : "true"
+  force_delete_snapshot : "true"
   instance_type = "t2.micro"
   region        = "us-east-1"
   source_ami    = "ami-0fec2c2e2017f4e7b"
