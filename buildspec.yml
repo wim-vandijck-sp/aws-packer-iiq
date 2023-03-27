@@ -7,9 +7,6 @@ phases:
     commands:
       - echo "Creating vault password file"
       - echo "Sailp0!nt123" > vaultpasswordfile
-      - cat vaultpasswordfile
-      - echo "Testing folder"
-      - ls -al
       - echo "Installing ansible"
       - pip install ansible==2.9.6
       - echo "Installing Packer"
