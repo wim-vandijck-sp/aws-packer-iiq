@@ -7,10 +7,6 @@ packer {
   }
 }
 
-variable "vaultpassword" {
-  type = string
-}
-
 source "amazon-ebs" "iiq-ami" {
   ami_name = "iiq-testbuild-ami"
   force_deregister      = "true"
