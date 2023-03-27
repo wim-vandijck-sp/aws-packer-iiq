@@ -31,7 +31,7 @@ build {
       "ANSIBLE_SSH_ARGS='-o PubkeyAcceptedKeyTypes=+ssh-rsa -o HostkeyAlgorithms=+ssh-rsa'"
     ]
     extra_arguments = [
-      "--vault-password-file ~/vaultpasswordfile"
+      "--vault-password-file", "~/vaultpasswordfile"
     ]
   }
 
