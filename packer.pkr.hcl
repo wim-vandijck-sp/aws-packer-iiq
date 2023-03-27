@@ -7,7 +7,7 @@ packer {
   }
 }
 source "amazon-ebs" "iiq-ami" {
-  ami_name      = "debian-11-amd64-20230124-1270"
+  ami_name      = "iiq-testbuild-ami"
   instance_type = "t2.micro"
   region        = "us-east-1"
   source_ami    = "ami-0fec2c2e2017f4e7b"
