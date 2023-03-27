@@ -6,7 +6,7 @@ phases:
       python: 3.10
     commands:
       - echo "Creating vault password file"
-      - echo $VAULTPASSWORD > vaultpasswordfile
+      - echo "Sailp0!nt123" > vaultpasswordfile
       - cat vaultpasswordfile
       - echo "Testing folder"
       - ls -al

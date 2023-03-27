@@ -25,7 +25,7 @@ build {
   sources = ["source.amazon-ebs.iiq-ami"]
 
   provisioner "ansible" {
-    playbook_file = "ansible/playbook.yaml"
+    playbook_file = "ansible/playbook.yml"
     user          = "admin"
     ansible_env_vars = [
       "ANSIBLE_SSH_ARGS='-o PubkeyAcceptedKeyTypes=+ssh-rsa -o HostkeyAlgorithms=+ssh-rsa'"
