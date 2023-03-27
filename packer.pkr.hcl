@@ -21,9 +21,9 @@ source "amazon-ebs" "iiq-ami" {
 build {
   sources = ["source.amazon-ebs.iiq-ami"]
 
-  // provisioner "ansible" {
-  //   playbook_file = "./playbook.yaml"
-  //   user          = "admin"
-  // }
+  provisioner "ansible" {
+    playbook_file = "./playbook.yaml"
+    user          = "admin"
+  }
 
 }
