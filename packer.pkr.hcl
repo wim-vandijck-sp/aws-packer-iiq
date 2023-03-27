@@ -6,6 +6,11 @@ packer {
     }
   }
 }
+
+variable "vaultpassword" {
+  type = string
+}
+
 source "amazon-ebs" "iiq-ami" {
   ami_name = "iiq-testbuild-ami"
   force_deregister      = "true"
@@ -24,10 +29,13 @@ build {
   sources = ["source.amazon-ebs.iiq-ami"]
 
   provisioner "ansible" {
-    playbook_file = "./playbook.yaml"
+    playbook_file = "./ansible/playbook.yaml"
     user          = "admin"
     ansible_env_vars = [
       "ANSIBLE_SSH_ARGS='-o PubkeyAcceptedKeyTypes=+ssh-rsa -o HostkeyAlgorithms=+ssh-rsa'"
+    ]
+    extra_arguments = [
+      "--vault-password-file ~/vaultpasswordfile"
     ]
   }
 

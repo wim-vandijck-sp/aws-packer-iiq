@@ -1,6 +1,0 @@
-packages:
-  - curl
-  - wget
-  - git
-  - openjdk-11-jdk-headless
-  - make
