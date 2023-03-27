@@ -8,7 +8,7 @@ phases:
       - echo "Creating vault password file"
       - echo "Sailp0!nt123" > vaultpasswordfile
       - echo "Installing ansible"
-      - pip install ansible==2.9.6
+      - pip install ansible==2.12
       - echo "Installing Packer"
       - curl -qL -o packer.zip https://releases.hashicorp.com/packer/1.8.6/packer_1.8.6_linux_amd64.zip && unzip packer.zip
   pre_build:
