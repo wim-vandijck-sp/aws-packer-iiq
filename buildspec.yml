@@ -5,6 +5,8 @@ phases:
     runtime-versions:
       python: 3.10
     commands:
+      - echo "Creating vault password file"
+      - echo $VAULTPASSWORD > vaultpasswordfile
       - echo "Installing ansible"
       - pip install ansible==2.9.6
       - echo "Installing Packer"
@@ -17,8 +19,6 @@ phases:
       - ./packer init -upgrade packer.pkr.hcl
       - echo "Validating the Packer template"
       - ./packer validate packer.pkr.hcl
-      - echo "Creating vault password file"
-      - echo $VAULTPASSWORD > vaultpasswordfile
   build:
     commands:
        - echo "Building the Packer template"
