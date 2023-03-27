@@ -40,6 +40,6 @@
           - name: identityiq
             password: identityiq
             priv: "identityiq.*:ALL"
-    - role: identityiq
-      vars:
-        include_group_management: "no"
+    # - role: identityiq
+    #   vars:
+    #     include_group_management: "no"
