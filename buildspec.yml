@@ -5,6 +5,7 @@ phases:
     runtime-versions:
       python: 3.10
     commands:
+      - uname -a
       - echo "Creating vault password file"
       - echo "Sailp0!nt123" > vaultpasswordfile
       - echo "Upgrading pip"
@@ -21,8 +22,7 @@ phases:
       - echo "Copying packer plugin from S3 to avoid limit rate"
       - aws s3 cp s3://codebuild-iiq-installer-files/packer-plugin-amazon_v1.2.1_x5.0_linux_amd64.zip .
       - unzip packer-plugin-amazon_v1.2.1_x5.0_linux_amd64.zip && rm packer-plugin-amazon_v1.2.1_x5.0_linux_amd64.zip
-      - mkdir -p .packer.d/plugins && mv packer-plugin-amazon_v1.2.1_x5.0_linux_amd64 .packer.d/plugins
-      - export PACKER_PLUGIN_PATH=.packer.d/plugins
+      - mkdir -p ~/.packer.d/plugins && mv packer-plugin-amazon_v1.2.1_x5.0_linux_amd64 ~/.packer.d/plugins
       - echo "Updating the repository"
       - apt-get update -y
       - echo "Packer init"
