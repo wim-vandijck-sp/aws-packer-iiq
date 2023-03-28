@@ -17,10 +17,10 @@
     var: command_output
     verbosity: 2
 
-# - name: Store public key
-#   ansible.builtin.fetch:
-#     src: /home/sailpoint/.ssh/id_rsa.pub
-#     dest: iiqhost_sailpoint_rsa.pub
+- name: Store public key
+  ansible.builtin.fetch:
+    src: /home/sailpoint/.ssh/id_rsa.pub
+    dest: iiqhost_sailpoint_rsa.pub
 
 - name: Allow ssh key login for sailpoint
   ansible.posix.authorized_key:
