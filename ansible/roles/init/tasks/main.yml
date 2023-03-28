@@ -21,6 +21,10 @@
     state: present
     key: "{{ lookup('file', '/home/sailpoint/.ssh/id_rsa.pub') }}"
 
+- name: Run the equivalent of "apt-get update" to prevent cache issues with further roles
+  ansible.builtin.apt:
+    update_cache: yes
+
 # - name: "Allow sailpoint user to sudo without a password"
 #   lineinfile:
 #     dest: "/etc/sudoers" # path: in version 2.3
