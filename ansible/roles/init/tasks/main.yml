@@ -25,6 +25,10 @@
     src: /home/sailpoint/.ssh/id_rsa.pub
     dest: iiqhost_sailpoint_rsa.pub
 
+- name: Print return information from the previous task
+  ansible.builtin.debug:
+    var: result
+    
 - name: Get the contents of key with slurp
   ansible.builtin.slurp:
     src: /home/sailpoint/.ssh/id_rsa.pub
