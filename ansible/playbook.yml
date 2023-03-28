@@ -10,6 +10,7 @@
     java_default_version: 11
 
   roles:
+    - role: init
     - role: robertdebock.bootstrap
     - role: robertdebock.core_dependencies
     - role: robertdebock.hostname

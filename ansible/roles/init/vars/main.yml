@@ -5,6 +5,7 @@ core_dependencies_shared_packages:
   - bzip2
   - bash
   - git
+  - gnugpg
   - gzip
   - tar
   - unzip

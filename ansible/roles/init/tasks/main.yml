@@ -39,4 +39,8 @@
 #     state: present
 #     update_cache: yes
 
-
+- name: Install gnupg packages
+  ansible.builtin.package:
+    name: gnupg
+    state: present
+    update_cache: yes
