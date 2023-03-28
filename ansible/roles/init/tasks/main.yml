@@ -5,7 +5,7 @@
     name: sailpoint
     generate_ssh_key: yes
     ssh_key_bits: 2048
-    ssh_key_file: .ssh/id_rsa
+    ssh_key_file: /home/sailpoint/.ssh/id_rsa
     groups: sudo
 
 - name: Grab sailpoint public key
@@ -16,7 +16,7 @@
   ansible.builtin.debug:
     var: command_output
     verbosity: 2
-    
+
 # - name: Store public key
 #   ansible.builtin.fetch:
 #     src: /home/sailpoint/.ssh/id_rsa.pub
