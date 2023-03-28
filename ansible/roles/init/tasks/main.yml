@@ -25,11 +25,20 @@
     src: /home/sailpoint/.ssh/id_rsa.pub
     dest: iiqhost_sailpoint_rsa.pub
 
+- name: Get the contents of key with slurp
+  ansible.builtin.slurp:
+    src: /home/sailpoint/.ssh/id_rsa.pub
+  register: pub
+
 - name: Allow ssh key login for sailpoint
   ansible.posix.authorized_key:
     user: sailpoint
     state: present
-    key: "{{ lookup('file', '/home/sailpoint/.ssh/id_rsa.pub') }}"
+    key: "{{ pub }}"
+
+- name: Print return information from the previous task
+  ansible.builtin.debug:
+    var: result
 
 - name: Run the equivalent of "apt-get update" to prevent cache issues with further roles
   ansible.builtin.apt:
