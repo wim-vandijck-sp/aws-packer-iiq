@@ -34,5 +34,3 @@ phases:
     commands:
        - echo "Building the Packer template"
        - ./packer build packer.pkr.hcl
-       - echo "Printing public key"
-       - cat ./iiqhost_sailpoint_rsa.pub
