@@ -12,8 +12,10 @@
   command: cat /home/sailpoint/.ssh/id_rsa.pub
   register: command_output
 
-- name: Print public key
-  debug: msg = "{{ command_output.stdout }}"
+- name: Store public key
+  ansible.builtin.fetch:
+    src: /home/sailpoint/.ssh/id_rsa.pub
+    dest: iiqhost_sailpoint_rsa.pub
 
 - name: Allow ssh key login for sailpoint
   ansible.posix.authorized_key:
