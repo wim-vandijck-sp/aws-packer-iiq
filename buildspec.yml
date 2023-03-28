@@ -13,7 +13,6 @@ phases:
       - pip install ansible
       - echo "Installing Packer"
       - curl -qL -o packer.zip https://releases.hashicorp.com/packer/1.8.6/packer_1.8.6_linux_amd64.zip && unzip packer.zip
-      - echo "Copying installer files from S3 into IIQ role folders"
   pre_build:
     commands:
       - echo "Copying IIQ install files"
@@ -21,9 +20,9 @@ phases:
       - aws s3 cp s3://codebuild-iiq-installer-files/identityiq-8.3p2.jar ansible/roles/identityiq/files/
       - echo "Copying packer plugin from S3 to avoid limit rate"
       - aws s3 cp s3://codebuild-iiq-installer-files/packer-plugin-amazon_v1.2.1_x5.0_linux_amd64.zip .
-      - ls -al packer-plugin-amazon_v1.2.1_x5.0_linux_amd64.zip
-      - chmod 755 packer-plugin-amazon_v1.2.1_x5.0_linux_amd64.zip
-      - ls -al packer-plugin-amazon_v1.2.1_x5.0_linux_amd64.zip      
+      - unzip packer-plugin-amazon_v1.2.1_x5.0_linux_amd64.zip && rm packer-plugin-amazon_v1.2.1_x5.0_linux_amd64.zip
+      - mkdir -p .packer.d/plugins && mv packer-plugin-amazon_v1.2.1_x5.0_linux_amd64 .packer.d/plugins
+      - export PACKER_PLUGIN_PATH=.packer.d/plugins
       - echo "Updating the repository"
       - apt-get update -y
       - echo "Packer init"
