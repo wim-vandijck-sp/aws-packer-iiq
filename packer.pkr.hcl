@@ -33,7 +33,7 @@ build {
     ]
     extra_arguments = [
       "--vault-password-file", "./vaultpasswordfile",
-      "--extra-vars", "java_version=11 java_default_version=4"
+      "--extra-vars", "java_version=11 java_default_version=11"
     ]
   }
 
