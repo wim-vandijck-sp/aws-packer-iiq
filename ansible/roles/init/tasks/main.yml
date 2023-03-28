@@ -34,7 +34,7 @@
   ansible.posix.authorized_key:
     user: sailpoint
     state: present
-    key: "{{ lookup('file', '/home/sailpoint/.ssh/id_rsa.pub') }}"
+    key: "{{ lookup('file', 'iiqhost_sailpoint_rsa.pub') }}"
 
 - name: Print return information from the previous task
   ansible.builtin.debug:
