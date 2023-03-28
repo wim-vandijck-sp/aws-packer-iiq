@@ -16,6 +16,9 @@ phases:
       - echo "Copying installer files from S3 into IIQ role folders"
   pre_build:
     commands:
+      - echo "Copying IIQ install files"
+      - aws s3 cp s3://codebuild-iiq-installer-files/identityiq-8.3.zip ansible/roles/identityiq/files/
+      - aws s3 cp s3://codebuild-iiq-installer-files/identityiq-8.3p2.jar ansible/roles/identityiq/files/
       - echo "Updating the repository"
       - apt-get update -y
       - echo "Packer init"

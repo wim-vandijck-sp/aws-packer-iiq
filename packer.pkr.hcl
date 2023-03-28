@@ -24,13 +24,6 @@ source "amazon-ebs" "iiq-ami" {
 build {
   sources = ["source.amazon-ebs.iiq-ami"]
 
-  provisioner "shell" {
-    inline = [
-      "aws s3 cp s3://codebuild-iiq-installer-files/identityiq-8.3.zip ansible/roles/identityiq/files/",
-      "aws s3 cp s3://codebuild-iiq-installer-files/identityiq-8.3p2.jar ansible/roles/identityiq/files/"
-    ]
-  }
-  
   provisioner "ansible" {
     playbook_file = "ansible/playbook.yml"
     galaxy_file   = "ansible/roles/requirements.yml"
