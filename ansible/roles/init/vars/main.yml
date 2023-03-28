@@ -2,8 +2,6 @@
 # vars file for core_dependencies
 
 core_dependencies_shared_packages:
-  - acl
-  - at
   - bzip2
   - bash
   - git
@@ -11,13 +9,6 @@ core_dependencies_shared_packages:
   - tar
   - unzip
   - vim
-  - wget
-  - perl
-  - cpp
-  - gcc
-  - make
-  - python3
-  - ansible
 
 _core_dependencies_packages:
   Debian:

@@ -10,7 +10,6 @@
     java_default_version: 11
 
   roles:
-    - role: init
     - role: robertdebock.bootstrap
     - role: robertdebock.core_dependencies
     - role: robertdebock.hostname
@@ -40,6 +39,6 @@
           - name: identityiq
             password: identityiq
             priv: "identityiq.*:ALL"
-    # - role: identityiq
-    #   vars:
-    #     include_group_management: "no"
+    - role: identityiq
+      vars:
+        include_group_management: "no"
