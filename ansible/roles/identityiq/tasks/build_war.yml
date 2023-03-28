@@ -69,7 +69,6 @@
     owner: sailpoint
     group: sailpoint
     mode: '0644'
-    remote_src: yes
 
 - name: Copy build.properties file (hostname)
   ansible.builtin.template: 
@@ -78,7 +77,6 @@
     owner: sailpoint
     group: sailpoint
     mode: '0644'
-    remote_src: yes
 
 - name: Copy target.properties file
   ansible.builtin.template:
