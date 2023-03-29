@@ -11,12 +11,12 @@
     state: present
     key: "{{ lookup('file', 'WimsPair.pub') }}"
 
-# - name: "Allow sailpoint user to sudo without a password"
-#   lineinfile:
-#     dest: "/etc/sudoers" # path: in version 2.3
-#     state: "present"
-#     regexp: "^sailpoint"
-#     line: "sailpoint ALL=(ALL) NOPASSWD: ALL"
+- name: "Allow sailpoint user to sudo without a password"
+  lineinfile:
+    dest: "/etc/sudoers" # path: in version 2.3
+    state: "present"
+    regexp: "^sailpoint"
+    line: "sailpoint ALL=(ALL) NOPASSWD: ALL"
 
 # Done by packer and kickstart
 # - name: Ensure necessary packages are installed.
@@ -24,7 +24,7 @@
 #     name: "{{ core_dependencies }}"
 #     state: present
 #     update_cache: yes
-
+# 
 - name: Install gnupg packages
   ansible.builtin.package:
     name: gnupg
