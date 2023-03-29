@@ -1,36 +1,15 @@
 ---
 # Create sailpoint user
-- name: Create a 2048-bit SSH key for user sailpoint in /home/sailpoint/.ssh/id_rsa
+- name: Create a sailpoint user
   ansible.builtin.user:
     name: sailpoint
-    generate_ssh_key: yes
-    ssh_key_bits: 2048
-    ssh_key_file: /home/sailpoint/.ssh/id_rsa
     groups: sudo
 
-- name: Grab sailpoint public key
-  command: cat /home/sailpoint/.ssh/id_rsa.pub
-  register: command_output
-
-- name: Store public key
-  ansible.builtin.fetch:
-    src: /home/sailpoint/.ssh/id_rsa.pub
-    dest: iiqhost_sailpoint_rsa.pub
-
-- name: Get the contents of key with slurp
-  ansible.builtin.slurp:
-    src: /home/sailpoint/.ssh/id_rsa.pub
-  register: pub
-
-# - name: Print pub key
-#   ansible.builtin.debug:
-#     var: pub
-
-# - name: Allow ssh key login for sailpoint
-#   ansible.posix.authorized_key:
-#     user: sailpoint
-#     state: present
-#     key: "{{ lookup('file', 'iiqhost_sailpoint_rsa.pub') }}"
+- name: Allow ssh key login for sailpoint
+  ansible.posix.authorized_key:
+    user: sailpoint
+    state: present
+    key: "{{ lookup('file', 'WimsPair.pub') }}"
 
 # - name: "Allow sailpoint user to sudo without a password"
 #   lineinfile:
