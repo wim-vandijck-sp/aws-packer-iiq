@@ -1,0 +1,13 @@
+---
+__dirsrv_packages: 
+  - 389-ds
+  - 389-ds-base
+  - 389-ds-base-dev
+  - 389-ds-base-libs
+  - cockpit-389-ds
+  - ldap-utils
+
+dirsrv_service_name: dirsrv
+dirsrv_group: dirsrv
+dirsrv_user: dirsrv
+dirsrv_setupdsadmin: setup-ds-admin

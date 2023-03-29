@@ -1,0 +1,327 @@
+dn: dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: domain
+dc: seri
+
+
+dn: ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: People
+
+
+dn: ou=Groups,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: Groups
+
+
+dn: uid=1b2c3d,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+mail: csimmons@sailpointdemo.com
+sn: Simmons
+cn: Cathy Simmons
+givenName: Catherine
+uid: 1b2c3d
+
+
+dn: uid=1b2c3b,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sn: Washington
+cn: Jan Washington
+givenName: Janet
+uid: 1b2c3b
+
+
+dn: uid=1a2a3d,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sn: Wilson
+cn: Barb Wilson
+givenName: Barbara
+uid: 1a2a3d
+ds-pwp-account-disabled: false
+
+
+dn: uid=1b2a3b4a,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sn: Griffin
+cn: Joyce Griffin
+givenName: Joyce
+uid: 1b2a3b4a
+
+
+dn: uid=1b2c3b4d,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sn: Reyes
+cn: Fred Reyes
+givenName: Fred
+uid: 1b2c3b4d
+
+
+dn: uid=1b2c3a4b,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sn: Boyd
+cn: Kelly Boyd
+givenName: Kelly
+uid: 1b2c3a4b
+
+
+dn: uid=1b2a3d4e,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: posixAccount
+objectClass: top
+objectClass: organizationalPerson
+objectClass: person
+objectClass: inetOrgPerson
+sn: Reynolds
+cn: Gloria Reynolds
+givenName: Gloria
+homeDirectory: /home/greynolds
+gidNumber: 111111
+uidNumber: 5555
+uid: 1b2a3d4e
+
+
+dn: cn=admins,ou=Groups,dc=seri,dc=sailpointdemo,dc=com
+objectClass: groupOfUniqueNames
+objectClass: top
+cn: admins
+
+
+dn: cn=users,ou=Groups,dc=seri,dc=sailpointdemo,dc=com
+objectClass: groupOfUniqueNames
+objectClass: top
+cn: users
+
+
+dn: cn=guests,ou=Groups,dc=seri,dc=sailpointdemo,dc=com
+objectClass: groupOfUniqueNames
+objectClass: top
+cn: guests
+
+
+dn: cn=Server-DEV,ou=Groups,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: nisNetgroup
+nisNetgroupTriple: (,1b2a3d4e,)
+cn: Server-DEV
+
+
+dn: cn=Server-P{RD,ou=Groups,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: nisNetgroup
+nisNetgroupTriple: (,1b2a3d4e,)
+cn: Server-P{RD
+
+
+dn: cn=PosixGroup1,ou=Groups,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: posixGroup
+objectClass: groupOfNames
+gidNumber: 12345678
+cn: PosixGroup1
+memberUid: 1b2a3d4e
+member: uid=1b2a3d4e,ou=People,dc=seri,dc=sailpointdemo,dc=com
+
+
+dn: uid=1a2c3b4c,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sn: Cox
+cn: Amy Cox
+givenName: Amy
+uid: 1a2c3b4c
+
+
+dn: uid=1a2c3a4b,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sn: Bell
+cn: Angela Bell
+givenName: Angela
+uid: 1a2c3a4b
+
+
+dn: uid=1b2c3a4c,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sn: Mason
+cn: Brandon Mason
+givenName: Brandon
+uid: 1b2c3a4c
+
+
+dn: uid=1a2c3b4e,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sn: Ward
+cn: Anna Ward
+givenName: Anna
+uid: 1a2c3b4e
+
+
+dn: uid=1b2c3b4c,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sn: Ramos
+cn: Christina Ramos
+givenName: Christina
+uid: 1b2c3b4c
+
+
+dn: uid=1c2c3a4d,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sn: Richards
+cn: Connie Richards
+givenName: Connie
+uid: 1c2c3a4d
+
+
+dn: uid=1a2c3b4d,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sn: Howard
+cn: Eric Howard
+givenName: Eric
+uid: 1a2c3b4d
+
+
+dn: uid=1c2c3b4a,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sn: Johnston
+cn: Florence Johnston
+givenName: Florence
+uid: 1c2c3b4a
+
+
+dn: uid=1a2c3a4e,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sn: Rivera
+cn: Frank Rivera
+givenName: Frank
+uid: 1a2c3a4e
+
+
+dn: uid=1a2c3a4c,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sn: Murphy
+cn: Jeffrey Murphy
+givenName: Jerrfrey
+uid: 1a2c3a4c
+
+
+dn: uid=1b2c3a4d,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sn: Morales
+cn: Nicole Morales
+givenName: Nicole
+uid: 1b2c3a4d
+
+
+dn: uid=1a2c3b4b,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sn: Richardson
+cn: Scott Richardson
+givenName: Scott
+uid: 1a2c3b4b
+
+
+dn: uid=1b2c3d4c,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sn: Daniels
+cn: Tammy Daniels
+givenName: Tammy
+uid: 1b2c3d4c
+
+
+dn: uid=1c2c3b4c,ou=People,dc=seri,dc=sailpointdemo,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sn: Meyer
+cn: Tracy Meyer
+givenName: Tracy
+uid: 1c2c3b4c
+
+
+dn: cn=General Ledger,ou=Groups,dc=seri,dc=sailpointdemo,dc=com
+objectClass: groupOfUniqueNames
+objectClass: top
+uniqueMember: uid=1a2c3b4c,ou=People,dc=seri,dc=sailpointdemo,dc=com
+uniqueMember: uid=1b2c3a4b,ou=People,dc=seri,dc=sailpointdemo,dc=com
+uniqueMember: uid=1b2a3d4e,ou=People,dc=seri,dc=sailpointdemo,dc=com
+uniqueMember: uid=1b2c3b4d,ou=People,dc=seri,dc=sailpointdemo,dc=com
+uniqueMember: uid=1a2c3a4b,ou=People,dc=seri,dc=sailpointdemo,dc=com
+uniqueMember: uid=1a2c3b4e,ou=People,dc=seri,dc=sailpointdemo,dc=com
+uniqueMember: uid=1c2c3b4c,ou=People,dc=seri,dc=sailpointdemo,dc=com
+uniqueMember: uid=1b2c3d4c,ou=People,dc=seri,dc=sailpointdemo,dc=com
+uniqueMember: uid=1a2c3a4e,ou=People,dc=seri,dc=sailpointdemo,dc=com
+uniqueMember: uid=1a2c3b4b,ou=People,dc=seri,dc=sailpointdemo,dc=com
+uniqueMember: uid=1b2c3a4c,ou=People,dc=seri,dc=sailpointdemo,dc=com
+uniqueMember: uid=1c2c3b4a,ou=People,dc=seri,dc=sailpointdemo,dc=com
+uniqueMember: uid=1a2c3b4d,ou=People,dc=seri,dc=sailpointdemo,dc=com
+uniqueMember: uid=1a2c3a4c,ou=People,dc=seri,dc=sailpointdemo,dc=com
+uniqueMember: uid=1c2c3a4d,ou=People,dc=seri,dc=sailpointdemo,dc=com
+uniqueMember: uid=1b2c3b4c,ou=People,dc=seri,dc=sailpointdemo,dc=com
+uniqueMember: uid=1b2c3a4d,ou=People,dc=seri,dc=sailpointdemo,dc=com
+cn: General Ledger
+description: Grants basic GL access for Accounting Users
+
+
+dn: cn=SatelliteOfficesRDP,ou=Groups,dc=seri,dc=sailpointdemo,dc=com
+objectClass: groupOfUniqueNames
+objectClass: top
+uniqueMember: uid=1a2a3d,ou=People,dc=seri,dc=sailpointdemo,dc=com
+cn: SatelliteOfficesRDP
+description: Security Group for controlling external RDP access to internal servers

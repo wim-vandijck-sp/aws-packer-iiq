@@ -9,6 +9,7 @@ packer {
 
 source "amazon-ebs" "iiq-ami" {
   ami_name = "iiq-testbuild-ami"
+  ami_description = "Test Build for Automated IIQ Image"
   force_deregister      = "true"
   force_delete_snapshot = "true"
   instance_type = "t2.medium"

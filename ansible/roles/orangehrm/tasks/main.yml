@@ -1,0 +1,101 @@
+---
+- name: Download orangehrm
+  ansible.builtin.get_url:
+    url: "{{ orangehrm_unarchive_url }}"
+    dest: "{{ orangehrm_directory }}/orangehrm-{{ orangehrm_version }}.zip"
+    validate_certs: false
+    mode: "440"
+
+- name: Ensure OrangeHRM parent folder exists
+  ansible.builtin.file:
+    path: "/var/www/html"
+    state: directory
+
+- name: Ensure OrangeHRM folder doesn't exist
+  ansible.builtin.file:
+    path: "{{ orangehrm_directory}}/orangehrm"
+    state: absent
+
+- name: extract orangehrm archive
+  ansible.builtin.unarchive:
+    src: "{{ orangehrm_directory }}/orangehrm-{{ orangehrm_version }}.zip"
+    dest: "{{ orangehrm_directory }}/"
+    owner: "www-data"
+    group: "www-data"
+    remote_src: yes
+    creates: "{{ orangehrm_directory }}/orangehrm-{{ orangehrm_version }}"
+    mode: "0755"
+
+- name: rename orangehrm www folder
+  ansible.builtin.command: 
+    cmd: "mv {{ orangehrm_directory }}/orangehrm-{{ orangehrm_version }} {{ orangehrm_directory}}/orangehrm"
+    creates: "{{ orangehrm_directory}}/orangehrm" 
+    removes: "{{ orangehrm_directory }}/orangehrm-{{ orangehrm_version }}"
+
+- name: Copy install config template
+  ansible.builtin.template: 
+    src: "cli_install_config.yaml.j2"
+    dest: "{{ orangehrm_directory }}/orangehrm/installer/cli_install_config.yaml"
+    mode: '0644'
+
+- name: Ensure orangehrm db doesn't exist
+  community.mysql.mysql_db:
+    name: "{{ orangehrm_database }}"
+    state: absent
+
+- name: Ensure php mysql driver is installed
+  ansible.builtin.package: 
+    name: php7.4-mysql
+    state: present
+
+- name: Run installer
+  ansible.builtin.shell: "php {{ orangehrm_directory }}/orangehrm/installer/cli_install.php 0"
+  args:
+    chdir: "{{ orangehrm_directory }}/orangehrm/installer"
+
+- name: Copy data files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: /var/tmp/
+  with_items:
+    - Location.sql
+    - JobTitle.sql
+    - Departments.sql
+    - EmploymentStatus.sql
+    - Employees.sql
+    - EmpManager.sql
+    - EmpJobtitle.sql
+    - EmpLocation.sql
+    - EmpDepartment.sql
+    - EmpEmpStatus.sql
+    - Contractors.sql
+    - ConManager.sql
+    - ConJobtitle.sql
+    - ConLocation.sql
+    - ConDepartment.sql
+    - ConEmpStatus.sql
+    - UpdateUniqueIDs.sql
+
+- name: Import data
+  community.mysql.mysql_db:
+    name: orangehrm
+    state: import
+    target: "{{ item }}"
+  with_items: 
+    - /var/tmp/Location.sql
+    - /var/tmp/JobTitle.sql
+    - /var/tmp/Departments.sql
+    - /var/tmp/EmploymentStatus.sql
+    - /var/tmp/Employees.sql
+    - /var/tmp/EmpManager.sql
+    - /var/tmp/EmpJobtitle.sql
+    - /var/tmp/EmpLocation.sql
+    - /var/tmp/EmpDepartment.sql
+    - /var/tmp/EmpEmpStatus.sql
+    - /var/tmp/Contractors.sql
+    - /var/tmp/ConManager.sql
+    - /var/tmp/ConJobtitle.sql
+    - /var/tmp/ConLocation.sql
+    - /var/tmp/ConDepartment.sql
+    - /var/tmp/ConEmpStatus.sql
+    - /var/tmp/UpdateUniqueIDs.sql

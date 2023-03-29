@@ -1,0 +1,58 @@
+---
+- name: Initialize
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_os_family }}.yml"
+    - "default.yml"
+  when: __dirsrv_packages is not defined or dirsrv_service_name is not defined
+
+- name: Define packages
+  set_fact:
+    dirsrv_packages: "{{ __dirsrv_packages | list }}"
+  when: dirsrv_packages is not defined
+
+- name: Install
+  ansible.builtin.package: name={{ item }} state={{ dirsrv_state }}
+  with_items: "{{ dirsrv_packages }}"
+
+- name: Configure sysctl variables
+  ansible.posix.sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    sysctl_set: yes
+  with_items:
+    - { name: net.ipv4.tcp_keepalive_time, value: 300 }
+    - { name: net.ipv4.ip_local_port_range, value: "1024 65000" }
+    - { name: fs.file-max, value: 64000 }
+      
+# - name: Configure file descriptors for dirsrv systemd service
+#   ansible.builtin.lineinfile:
+#     dest=/etc/sysconfig/dirsrv.systemd
+#     state=present
+#     insertafter="^[Service]"
+#     line=LimitNOFILE=8192
+#   when: dirsrv_fqdn != "local.dev"
+
+- name: Silent setup file
+  ansible.builtin.template: 
+    src: seri.inf.j2
+    dest: /tmp/seri.inf
+    mode: 0644
+
+- name: Configure 389-ds using dscreate
+  ansible.builtin.shell: /usr/sbin/dscreate -j from-file /tmp/seri.inf
+
+- name: Copy userRoot.ldif
+  ansible.builtin.copy:
+    src: userRoot.ldif
+    dest: /var/lib/dirsrv/slapd-seri/ldif/userRoot.ldif
+    mode: 0644
+
+- name: Import entries
+  ansible.builtin.shell: /usr/sbin/dsconf -D "{{ dirsrv_rootdn }}" -w "{{ dirsrv_admin_password }}" ldap://localhost backend import userRoot /var/lib/dirsrv/slapd-seri/ldif/userRoot.ldif
+- name: Enable service
+  service:
+    name: "{{ dirsrv_service_name }}.target"
+    state: started
+    enabled: yes

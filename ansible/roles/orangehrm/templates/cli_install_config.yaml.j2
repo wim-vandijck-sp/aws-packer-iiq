@@ -1,0 +1,25 @@
+database:
+  hostName: 127.0.0.1
+  hostPort: 3306
+  databaseName: {{ orangehrm_database }}
+  privilegedDatabaseUser: {{ orangehrm_priv_dbuser }}
+  privilegedDatabasePassword: {{ orangehrm_priv_dbpass }}
+  useSameDbUserForOrangeHRM: n # y/n, if this field `n` fill `orangehrmDatabaseUser` and `orangehrmDatabasePassword`
+  orangehrmDatabaseUser: {{ orangehrm_dbuser }}
+  orangehrmDatabasePassword: {{ orangehrm_dbpass }}
+  isExistingDatabase: n # y/n
+
+organization:
+  name: SailpointDEMO
+  country: US
+
+admin:
+  adminUserName: {{ orangehrm_admin_user }}
+  adminPassword: {{ orangehrm_admin_pass }}
+  adminEmployeeFirstName: OrangeHRM
+  adminEmployeeLastName: Admin
+  workEmail: admin@sailpointdemo.com
+  contactNumber: ~
+
+license:
+  agree: y # y/n

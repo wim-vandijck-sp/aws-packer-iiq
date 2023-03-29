@@ -1,0 +1,11 @@
+---
+orangehrm_version: "5.3"
+orangehrm_unarchive_url: "https://github.com/orangehrm/orangehrm/releases/download/v{{ orangehrm_version }}/orangehrm-{{ orangehrm_version }}.zip"
+orangehrm_directory: "/var/www/html"
+orangehrm_database: "orangehrm"
+orangehrm_priv_dbuser: "root"
+orangehrm_priv_dbpass: "{{ mysql_root_passwd }}"
+orangehrm_admin_user: "Admin"
+orangehrm_admin_pass: "Sailp0!nt"
+orangehrm_dbuser: "orangehrm"
+orangehrm_dbpass: "orangehrm"

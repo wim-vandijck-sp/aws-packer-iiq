@@ -7,5 +7,6 @@ roles:
 - name: robertdebock.java
 - name: robertdebock.service
 - name: robertdebock.tomcat
+- name: robertdebock.nginx
 - name: robertdebock.mysql
 - name: robertdebock.php

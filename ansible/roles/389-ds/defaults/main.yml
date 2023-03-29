@@ -1,0 +1,15 @@
+---
+# defaults file for 389-ds
+
+# 389-ds
+dirsrv_state: latest
+dirsrv_fqdn: iiq.sailpointdemo.com
+dirsrv_password: sailpoint
+dirsrv_rootdn: "cn=Directory Manager"
+dirsrv_hostname: "{{ dirsrv_fqdn.split('.')[0] }}"
+dirsrv_suffix: "dc={{ dirsrv_hostname }},dc={{ dirsrv_fqdn.split('.')[1] }},dc={{ dirsrv_fqdn.split('.')[2] }}"
+dirsrv_sample_entries: "yes"
+
+# Administration server
+dirsrv_admin_password: "{{ dirsrv_password }}"
+dirsrv_admin_domain: "{{ dirsrv_fqdn.split('.')[1:] | join('.') }}"

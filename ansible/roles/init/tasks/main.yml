@@ -4,8 +4,15 @@
   ansible.builtin.user:
     name: sailpoint
     groups: sudo
+    shell: /usr/bin/bash
 
 - name: Allow ssh key login for sailpoint
+  ansible.posix.authorized_key:
+    user: sailpoint
+    state: present
+    key: "{{ lookup('file', 'WimsPair.pub') }}"
+
+- name: Allow ssh key login for admin
   ansible.posix.authorized_key:
     user: sailpoint
     state: present

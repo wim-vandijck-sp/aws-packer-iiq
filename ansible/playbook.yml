@@ -30,8 +30,8 @@
         tomcat_version9: 9.0.71
         tomcat_xms: 1024M
         tomcat_xmx: 2048M
-        tomcat_non_ssl_connector_port: 80
         tomcat_ssl_connector_port: 8443
+    - role: robertdebock.nginx
     - role: robertdebock.mysql
       vars:
         mysql_databases:
@@ -45,3 +45,7 @@
     - role: identityiq
       vars:
         include_group_management: "no"
+    - role: 389-ds
+    - role: robertdebock.php
+    - role: orangehrm
+      orangehrm_version: "5.3"
