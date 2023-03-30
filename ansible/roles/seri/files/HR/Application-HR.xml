@@ -91,7 +91,7 @@
         </value>
       </entry>
       <entry key="templateApplication" value="JDBC Template"/>
-      <entry key="url" value="jdbc:mysql://seri.sailpointdemo.com/orangehrm?useOldAliasMetadataBehavior=true"/>
+      <entry key="url" value="jdbc:mysql://localhost/orangehrm?useOldAliasMetadataBehavior=true"/>
       <entry key="useExecuteQuery">
         <value>
           <Boolean/>

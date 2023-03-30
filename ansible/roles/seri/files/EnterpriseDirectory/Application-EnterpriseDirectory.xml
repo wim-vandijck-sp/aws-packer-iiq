@@ -20,7 +20,7 @@
       <entry key="authorizationType" value="simple"/>
       <entry key="beforeProvisioningRule"/>
       <entry key="compositeDefinition"/>
-      <entry key="host" value="seri.sailpointdemo.com"/>
+      <entry key="host" value="localhost"/>
        <entry key="deltaAggregation">
         <value>
           <Map>

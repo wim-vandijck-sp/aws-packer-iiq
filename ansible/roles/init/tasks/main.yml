@@ -37,3 +37,6 @@
     name: gnupg
     state: present
     update_cache: yes
+
+- name: setup hostname
+  command: hostnamectl set-hostname iiq.sailpointdemo.com

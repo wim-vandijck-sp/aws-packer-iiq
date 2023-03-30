@@ -8,7 +8,15 @@
   ansible.builtin.template:
     src=hosts.j2
     dest=/etc/hosts
-    
+
+- name: Set motd
+  ansible.builtin.copy:
+    src: motd
+    dest: /etc/motd
+    owner: root
+    group: root
+    mode: '0644'
+ 
 - name: Copy HR files over
   ansible.builtin.copy: 
     src: HR
@@ -96,4 +104,5 @@
   poll: 5
   register: cmdout
   changed_when: cmdout.rc != 0
+
 # - name: Import SERI Identity ObjectConfig
