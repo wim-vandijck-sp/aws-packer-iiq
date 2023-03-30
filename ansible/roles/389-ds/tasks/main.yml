@@ -46,11 +46,11 @@
 - name: Copy userRoot.ldif
   ansible.builtin.copy:
     src: userRoot.ldif
-    dest: /var/lib/dirsrv/slapd-seri/ldif/userRoot.ldif
+    dest: /var/lib/dirsrv/slapd-{{ dirsrv_hostname }}/ldif/userRoot.ldif
     mode: 0644
 
 - name: Import entries
-  ansible.builtin.shell: /usr/sbin/dsconf -D "{{ dirsrv_rootdn }}" -w "{{ dirsrv_admin_password }}" ldap://localhost backend import userRoot /var/lib/dirsrv/slapd-seri/ldif/userRoot.ldif
+  ansible.builtin.shell: /usr/sbin/dsconf -D "{{ dirsrv_rootdn }}" -w "{{ dirsrv_admin_password }}" ldap://localhost backend import userRoot /var/lib/dirsrv/slapd-{{ dirsrv_hostname }}/ldif/userRoot.ldif
 - name: Enable service
   service:
     name: "{{ dirsrv_service_name }}.target"
