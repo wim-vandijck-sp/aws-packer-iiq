@@ -31,7 +31,18 @@
         tomcat_xms: 1024M
         tomcat_xmx: 2048M
         tomcat_ssl_connector_port: 8443
-    - role: robertdebock.nginx
+    - role: robertdebock.httpd
+      httpd_locations:
+      - name: my_location
+        location: /identityiq
+        backend_url: "http://localhost:8080/identityiq"
+      httpd_directories:
+      - name: organgehrm
+        path: "{{ httpd_data_directory }}/orangehrm"
+        # options:
+        #   - Indexes
+        #   - FollowSymLinks
+        allow_override: All
     - role: robertdebock.mysql
       vars:
         mysql_databases:
