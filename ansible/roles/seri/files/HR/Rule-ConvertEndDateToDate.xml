@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE Rule PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<Rule  language="beanshell"  name="Convert EndDate to Date" type="IdentityAttribute">
+<!-- want to return calendar in milliseconds so we can calculate people who are between dates 
+    So, in this example we have a search-able identity attribute called contractEndDate of type String
+    Don't worry, it will sotre as a date object.  
+    Since the date is in milliseconds, we can search identity using a Filter
+    Filter filter = Filter.and(Filter.gt("contractEndDate", start), Filter.lt("contractEndDate", end)); 
+    See Rule-endDateQueryIdentityClass.xml  -->
+  <Source>   <![CDATA[
+import sailpoint.object.*;
+import java.text.*;
+
+serilog=org.apache.commons.logging.LogFactory.getLog("SERI.Attribute.EndDateAsDate");
+
+String endDate = link.getAttribute("endDate");
+serilog.debug ("endDate: " + endDate);
+if (endDate!=null) {
+  try {
+    SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a z");
+    df.setLenient(true);
+    Date futureDate = df.parse(endDate);
+    return futureDate;
+  } catch (ParseException e) {
+    // for demo purposes the show must go on.  
+    serilog.debug ("Invalid date in format MM/DD/YYYY" + e);
+    Calendar calendar = Calendar.getInstance();  
+    Date now = calendar.getTime();
+    return now;
+  }
+}
+
+return null;
+  ]]> </Source>
+</Rule>

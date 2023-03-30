@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE sailpoint PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<sailpoint>
+  <!-- Pull in Idenitty Object Config  -->
+  <ImportAction name="include" value="ObjectConfig-Identity-Base-SERI.xml"/>
+
+
+  <!-- 
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-HR/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-OracleEBS/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-RACF/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-ActiveDirectory/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-AzureActiveDirectory/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-ServiceNow/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-TRAKK/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-TRAKK-WS/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-PRISM/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-EnterpriseDirectory/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-MSSQLServer/Application-MssqlServer.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-FileAccessManager/setup.xml' />
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Utility-DisablePassThrough/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Utility-SODImporter/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Utility-ChallengeAnswerImporter/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Utility-RoleImporter/setup.xml'/>
+  <!-- AR 2021.04.06 added to support loading the PluginDeployer if not deployed by the ant task -->
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Utility-PluginLoader/setup.xml'/>
+  
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Connector-SOAP/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-ERPPortal/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Demo-Standard/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-RapidSetup/setup.xml'/>
+   
+
+  
+  <!--  Configure IAI to Use the MockRecommender  -->
+  <ImportAction name="include" value="seri/xml/Configuration/Configuration-Identityaiconfiguration.xml"/>
+  <ImportAction name="include" value="seri/xml/Configuration/Configuration-IAI-MockRecommenderSetup.xml"/>
+  -->
+</sailpoint>

@@ -1,0 +1,5 @@
+tomcat_root: /opt/tomcat
+web_inf_dir: "{{ tomcat_root }}/webapps/identityiq/WEB-INF"
+java_cmd: java -classpath {{ web_inf_dir }}/lib/identityiq.jar:{{ web_inf_dir }}/classes sailpoint.launch.Launcher
+
+iiq_admin_user: spadmin

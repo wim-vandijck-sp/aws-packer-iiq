@@ -60,3 +60,4 @@
     - role: robertdebock.php
     - role: orangehrm
       orangehrm_version: "5.3"
+    - role: seri

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Rule PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<Rule language="beanshell" name="Set lifecycleState" type="IdentityAttribute">
+  <Description>Identity attribute rules are used when the value is not simply a copy of an application account attribute value.  A transformation may be necessary on the account attribute, or several account attributes may need to be combined to produce the identity attribute.
+
+This rule can be called in two ways: as a global mapping rule and an application mapping rule.  A global mapping rule is called whenever the identity is refreshed.  The rule can look at any account attributes.  An application mapping rule is called only when the identity contains an account link for that application, this link is passed in the "link" argument which is not passed in global mapping rules.</Description>
+  <Signature returnType="String">
+    <Inputs>
+      <Argument name="log">
+        <Description>
+          The log object associated with the SailPointContext.
+        </Description>
+      </Argument>
+      <Argument name="context">
+        <Description>
+          A sailpoint.api.SailPointContext object that can be used to query the database if necessary.
+        </Description>
+      </Argument>
+      <Argument name="environment" type="Map">
+        <Description>
+           Arguments passed to the aggregation or refresh task.
+        </Description>
+      </Argument>
+      <Argument name="identity">
+        <Description>
+           The Identity object that represents the user
+           that is being aggregated.
+        </Description>
+      </Argument>
+      <Argument name="attributeDefinition">
+        <Description>
+           The AttributeDefinition object for this attribute.
+        </Description>
+      </Argument>
+      <Argument name="link">
+        <Description>
+           The Link object from the Identity, if this is an application
+           mapping rule.  For global mapping rules this will be void.
+        </Description>
+      </Argument>
+      <Argument name="attributeSource">
+        <Description>
+          The AttributeSource object.
+        </Description>
+      </Argument>
+      <Argument name="oldValue">
+        <Description>
+          The original value of the application account attribute.
+        </Description>
+      </Argument>
+    </Inputs>
+    <Returns>
+      <Argument name="attributeValue">
+        <Description>
+          The value of the attribute that should be populated.
+          The rule should return this value.
+        </Description>
+      </Argument>
+    </Returns>
+  </Signature>
+  <Source><![CDATA[
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+serilog=org.apache.commons.logging.LogFactory.getLog("SERI.Rule.SetLifecycleState");
+
+String START_DATE_ATTRIBUTE_NAME="startDate";
+String END_DATE_ATTRIBUTE_NAME="endDate";
+String TERMINATION_DATE_ATTRIBUTE_NAME="terminationDate";
+
+String DATE_FORMAT="dd/MM/yyyy";
+
+String ACTIVE_LIFECYCLE_STATE="Active";
+String BEFORE_ACTIVE_LIFECYCLE_STATE="Inactive - About to join";
+String AFTER_ACTIVE_LIFECYCLE_STATE="Active - Just joined";
+
+String PREHIRE_LIFECYCLE_STATE="Inactive - Prehire";
+
+String INACTIVE_LIFECYCLE_STATE="Inactive";
+String BEFORE_INACTIVE_LIFECYCLE_STATE="Active - About to leave";
+String AFTER_INACTIVE_LIFECYCLE_STATE="Inactive - Just left";
+
+int daysBefore=-14;
+int daysAfter=14;
+
+String attStartDate = identity.getAttribute(START_DATE_ATTRIBUTE_NAME);
+String attEndDate = identity.getAttribute(END_DATE_ATTRIBUTE_NAME);
+String attTerminationDate = identity.getAttribute(TERMINATION_DATE_ATTRIBUTE_NAME);
+
+SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+
+Date now = new Date();
+
+Calendar c = Calendar.getInstance();
+c.setTime(now);
+c.add(Calendar.DAY_OF_MONTH, daysAfter);
+Date afterNow = c.getTime();
+
+c.setTime(now);
+c.add(Calendar.DAY_OF_MONTH, daysBefore);
+Date beforeNow = c.getTime();
+
+Date startDate=null;
+Date endDate=null;
+Date terminationDate=null;
+
+serilog.debug("identity.getName(): " + identity.getName() + " isInactive: " + identity.isInactive());
+serilog.debug("BeforeNow: " + sdf.format(beforeNow) + " Now: " + sdf.format(now) + " AfterNow: " + sdf.format(afterNow));
+if(attStartDate!=null){
+  serilog.debug("attStartDate: " + attStartDate);
+  if(!(attStartDate instanceof Date)) {
+    startDate=sdf.parse(attStartDate);
+  }
+}else{
+  serilog.debug("attStartDate is null");
+}
+if(attEndDate!=null){
+  serilog.debug("attEndDate: " + attEndDate);
+  if(!(attEndDate instanceof Date)) {
+    endDate=sdf.parse(attEndDate);
+  }
+}else{
+  serilog.debug("attEndDate is null");
+}
+
+if(attTerminationDate!=null){
+  serilog.debug("attTerminationDate: " + attTerminationDate);
+  if(!(attTerminationDate instanceof Date)) {
+    terminationDate=sdf.parse(attTerminationDate);
+  }
+}else{
+  serilog.debug("attTerminationDate is null");
+}
+
+if((endDate==null && terminationDate!=null) || (terminationDate!=null && endDate.after(terminationDate))){
+	endDate = terminationDate;
+	serilog.debug("Using terminationDate as endDate");
+}
+
+//End Date is defined and in the past
+if(endDate!=null && !endDate.after(now)){
+  //End Date is just past 
+  if(endDate.after(beforeNow)){
+    serilog.debug("returning AFTER_INACTIVE_LIFECYCLE_STATE: " + AFTER_INACTIVE_LIFECYCLE_STATE);
+    return AFTER_INACTIVE_LIFECYCLE_STATE;
+  //End Date is really in the past
+  }else{
+    serilog.debug("returning INACTIVE_LIFECYCLE_STATE: " + INACTIVE_LIFECYCLE_STATE);
+    return INACTIVE_LIFECYCLE_STATE;
+  }
+ //End Date is either not defined or in the future
+}else{
+  //End Date is defined and soon
+  if(endDate!=null && endDate.before(afterNow)){
+    //Start date is null or in the past
+    if(startDate==null || startDate.before(now)){
+      if(!identity.isInactive()){
+	    serilog.debug("returning BEFORE_INACTIVE_LIFECYCLE_STATE: " + BEFORE_INACTIVE_LIFECYCLE_STATE);
+	    return BEFORE_INACTIVE_LIFECYCLE_STATE;
+	  }else{
+	    serilog.debug("returning INACTIVE_LIFECYCLE_STATE instead of BEFORE_INACTIVE_LIFECYCLE_STATE");
+	    return INACTIVE_LIFECYCLE_STATE;
+	  }
+    //Start Date is defined and just in the future
+    }else if(startDate!=null && startDate.before(afterNow)){
+      serilog.debug("returning BEFORE_ACTIVE_LIFECYCLE_STATE: " + BEFORE_ACTIVE_LIFECYCLE_STATE);
+      return BEFORE_ACTIVE_LIFECYCLE_STATE;
+    //Start date is in the future
+    }else{
+      serilog.debug("returning PREHIRE_LIFECYCLE_STATE: " + PREHIRE_LIFECYCLE_STATE);
+      return PREHIRE_LIFECYCLE_STATE;
+    }
+  //End Date is either not defined or in the future
+  }else{
+    //Start date is null or really in the past for a while
+    if(startDate == null || startDate.before(beforeNow)){
+      if(!identity.isInactive()){
+        serilog.debug("returning ACTIVE_LIFECYCLE_STATE: " + ACTIVE_LIFECYCLE_STATE);
+        return ACTIVE_LIFECYCLE_STATE;
+      }else{
+	    serilog.debug("returning INACTIVE_LIFECYCLE_STATE instead of ACTIVE_LIFECYCLE_STATE");
+	    return INACTIVE_LIFECYCLE_STATE;
+	  }
+    //Start date is set, future but soon
+    }else if(startDate!=null && (startDate.after(now) && startDate.before(afterNow))){
+      if(!identity.isInactive()){
+        serilog.debug("returning BEFORE_ACTIVE_LIFECYCLE_STATE: " + BEFORE_ACTIVE_LIFECYCLE_STATE);
+        return BEFORE_ACTIVE_LIFECYCLE_STATE;
+      }else{
+	    serilog.debug("returning INACTIVE_LIFECYCLE_STATE instead of BEFORE_ACTIVE_LIFECYCLE_STATE");
+	    return INACTIVE_LIFECYCLE_STATE;
+	  }
+    //Start date is set, past but not so much
+    }else if(startDate!=null && (startDate.before(now) && startDate.after(beforeNow))){
+      if(!identity.isInactive()){
+        serilog.debug("returning AFTER_ACTIVE_LIFECYCLE_STATE: " + AFTER_ACTIVE_LIFECYCLE_STATE);
+        return AFTER_ACTIVE_LIFECYCLE_STATE;
+      }else{
+	    serilog.debug("returning INACTIVE_LIFECYCLE_STATE instead of AFTER_ACTIVE_LIFECYCLE_STATE");
+	    return INACTIVE_LIFECYCLE_STATE;
+	  }
+    //Start date is set and in the future
+    }else{
+      serilog.debug("returning PREHIRE_LIFECYCLE_STATE: " + PREHIRE_LIFECYCLE_STATE);
+      return PREHIRE_LIFECYCLE_STATE;
+    }
+  }
+}]]></Source>
+</Rule>

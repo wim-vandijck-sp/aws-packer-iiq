@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE sailpoint PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<sailpoint>
+  <ImportAction name='merge'>
+    <ObjectConfig name="Identity">
+      <Attributes>
+     <Map>
+       <entry key="identityTypeDefinitions">
+        <value>
+          <List>
+            <IdentityTypeDefinition displayName="identity_type_employee" name="employee">
+              <DisallowedAttributes>
+                <String>softwareVersion</String>
+                <String>administrator</String>
+                <String>description</String>
+                <String>externalEmail</String>
+              </DisallowedAttributes>
+            </IdentityTypeDefinition>
+            <IdentityTypeDefinition displayName="identity_type_contractor" name="contractor">
+              <DisallowedAttributes>
+                <String>softwareVersion</String>
+                <String>administrator</String>
+                <String>description</String>
+              </DisallowedAttributes>
+            </IdentityTypeDefinition>
+            <IdentityTypeDefinition displayName="identity_type_partner" name="partner">
+              <DisallowedAttributes>
+                <String>softwareVersion</String>
+                <String>administrator</String>   
+                <String>description</String>        
+              </DisallowedAttributes>
+            </IdentityTypeDefinition>
+            <IdentityTypeDefinition displayName="identity_type_rpa" name="rpa">
+              <DisallowedAttributes>
+                <String>manager</String>
+                <String>jobTitle</String>
+                <String>employeeId</String>
+                <String>terminationDate</String>
+                <String>oldJobTitle</String>
+                <String>transferManager</String>
+                <String>firstname</String>
+                <String>lastname</String>
+                <String>endDate</String>
+                <String>startDate</String>
+                <String>externalEmail</String>
+                <String>company</String>
+                <String>phone</String>
+              </DisallowedAttributes>
+              <ManagerCertifierAttribute>administrator</ManagerCertifierAttribute>
+            </IdentityTypeDefinition>
+            <IdentityTypeDefinition displayName="identity_type_service" name="service">
+              <DisallowedAttributes>
+                <String>manager</String>
+                <String>jobTitle</String>
+                <String>employeeId</String>
+                <String>terminationDate</String>
+                <String>oldJobTitle</String>
+                <String>transferManager</String>
+                <String>firstname</String>
+                <String>lastname</String>
+                <String>endDate</String>
+                <String>startDate</String>
+                <String>externalEmail</String>
+                <String>softwareVersion</String>
+                <String>company</String>
+                <String>phone</String>
+              </DisallowedAttributes>
+              <ManagerCertifierAttribute>administrator</ManagerCertifierAttribute>
+            </IdentityTypeDefinition>
+          </List>
+        </value>
+      </entry>
+    </Map>
+  </Attributes>
+      <ObjectAttribute displayName="Description" editMode="ReadOnly" name="botdescription" type="string" namedColumn="true"/>
+      <ObjectAttribute displayName="Company" editMode="ReadOnly" name="company" type="string" namedColumn="true"/>
+      <ObjectAttribute displayName="Department" editMode="ReadOnly" groupFactory="true" name="department" type="string" namedColumn="true"/>
+      <ObjectAttribute displayName="Cost Center" editMode="ReadOnly" groupFactory="true" name="costCenter" multi="true" type="string" namedColumn="true"/>
+      <ObjectAttribute displayName="Region" editMode="ReadOnly" groupFactory="true" name="region" type="string" namedColumn="true"/>
+      <ObjectAttribute displayName="Job Title" editMode="ReadOnly" name="jobTitle" groupFactory="true" type="string" namedColumn="true"/>
+      <ObjectAttribute displayName="Location" editMode="ReadOnly" groupFactory="true" name="location" type="string" namedColumn="true"/>
+      <ObjectAttribute displayName="Employee ID" editMode="ReadOnly" name="employeeId" type="string" namedColumn="true"/>
+      <ObjectAttribute displayName="Termination Date" editMode="ReadOnly" name="terminationDate" type="string" namedColumn="true"/>
+	  <ObjectAttribute displayName="Previous Job Title" editMode="ReadOnly" name="oldJobTitle" type="string" namedColumn="true"/>
+	  <ObjectAttribute displayName="Start Date" editMode="ReadOnly" name="startDate" type="string" namedColumn="true"/>     
+	  <ObjectAttribute displayName="End Date" editMode="ReadOnly" name="endDate" type="string" namedColumn="true"/>
+	  <ObjectAttribute displayName="Start Date As Date" editMode="ReadOnly" name="startDateAsDate" type="string" namedColumn="true"/>
+	  <ObjectAttribute displayName="End Date As Date" editMode="ReadOnly" name="endDateAsDate" type="string" namedColumn="true"/>
+	  <ObjectAttribute displayName="Previous Manager" editMode="ReadOnly" name="transferManager" type="string" namedColumn="true"/>
+	  <ObjectAttribute displayName="Lifecycle State" editMode="Permanent" name="lifecycleState" type="string" namedColumn="true" groupFactory="true"/>
+    </ObjectConfig>
+  
+  </ImportAction>
+</sailpoint>
+
