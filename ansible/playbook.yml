@@ -37,7 +37,7 @@
         location: /identityiq
         backend_url: "http://localhost:8080/identityiq"
       httpd_directories:
-      - name: organgehrm
+      - name: orangehrm
         path: "{{ httpd_data_directory }}/orangehrm"
         # options:
         #   - Indexes

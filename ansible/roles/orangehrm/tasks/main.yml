@@ -99,3 +99,9 @@
     - /var/tmp/ConDepartment.sql
     - /var/tmp/ConEmpStatus.sql
     - /var/tmp/UpdateUniqueIDs.sql
+
+- name: Remove authentication from httpd (is done by DB)
+  ansible.builtin.lineinfile:
+    path: /etc/apache2/conf-enabled/orangehrm.conf
+    regexp: 'Require'
+    line: '  #Require valid-user'
