@@ -1,0 +1,4 @@
+run 'Aggregate HR Authoritative'
+run 'Maintain Manager Hierarchy'
+run 'Aggregate Enterprise Directory Accounts'
+run 'Aggregate Enterprise Directory Groups'

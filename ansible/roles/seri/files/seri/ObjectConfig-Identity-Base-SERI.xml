@@ -79,7 +79,7 @@
       <ObjectAttribute displayName="Region" editMode="ReadOnly" groupFactory="true" name="region" type="string" namedColumn="true"/>
       <ObjectAttribute displayName="Job Title" editMode="ReadOnly" name="jobTitle" groupFactory="true" type="string" namedColumn="true"/>
       <ObjectAttribute displayName="Location" editMode="ReadOnly" groupFactory="true" name="location" type="string" namedColumn="true"/>
-      <ObjectAttribute displayName="Employee ID" editMode="ReadOnly" name="employeeId" type="string" namedColumn="true"/>
+      <ObjectAttribute displayName="Employee ID" editMode="ReadOnly" name="employeeId" extendedNumber="1" type="string" namedColumn="true"/>
       <ObjectAttribute displayName="Termination Date" editMode="ReadOnly" name="terminationDate" type="string" namedColumn="true"/>
 	  <ObjectAttribute displayName="Previous Job Title" editMode="ReadOnly" name="oldJobTitle" type="string" namedColumn="true"/>
 	  <ObjectAttribute displayName="Start Date" editMode="ReadOnly" name="startDate" type="string" namedColumn="true"/>     
@@ -92,4 +92,3 @@
   
   </ImportAction>
 </sailpoint>
-

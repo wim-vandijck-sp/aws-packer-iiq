@@ -3,7 +3,7 @@
 
 # 389-ds
 dirsrv_state: latest
-dirsrv_fqdn: iiq.sailpointdemo.com
+dirsrv_fqdn: seri.sailpointdemo.com
 dirsrv_password: sailpoint
 dirsrv_rootdn: "cn=Directory Manager"
 dirsrv_hostname: "{{ dirsrv_fqdn.split('.')[0] }}"

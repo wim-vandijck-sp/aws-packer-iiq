@@ -11,17 +11,48 @@
     state: directory
     mode: '0774'
       
-# - name: Create folder to extract identityiq.zip
-#   file: 
-#     path: "{{ home_location }}/identityiq/"
-#     state: directory
-#     owner: sailpoint
-#     group: sailpoint
-#     mode: '0774'
+- name: Create folder to extract identityiq.zip
+  file: 
+    path: "{{ home_location }}/identityiq/"
+    state: directory
+    owner: sailpoint
+    group: sailpoint
+    mode: '0774'
+
+- name: Copy identityiq.zip file
+  ansible.builtin.copy:
+    src: "identityiq-{{ identityiq_version }}.zip"
+    dest: "{{ home_location }}"
+    owner: sailpoint
+    group: sailpoint
+    mode: '0644'
+
+- name: Copy patch file
+  ansible.builtin.copy:
+    src: "identityiq-{{ identityiq_version }}{{ identityiq_patch_version }}.jar"
+    dest: "{{ home_location }}"
+    owner: sailpoint
+    group: sailpoint
+    mode: '0644'
+  when: identityiq_patch_version is defined
+
+- name: Copy iiq.properties file
+  ansible.builtin.template: 
+    src: "iiq.properties.j2"
+    dest: "{{ home_location }}"
+    owner: sailpoint
+    group: sailpoint
+    mode: '0644'
+
+- name: Extract installer file
+  unarchive: 
+    src: "{{ home_location }}/identityiq.zip"
+    remote_src: yes
+    dest: "{{ home_location }}/identityiq"
 
 - name: Deploy war file
   unarchive: 
-    src: "{{ git_dest }}/build/deploy/identityiq.war"
+    src: "{{ home_location }}/identityiq/identityiq.war"
     remote_src: yes
     dest: "{{ identityiq_root }}"
 
@@ -35,9 +66,20 @@
     name: identityiq
     state: present
 
+# - name: Create DB create scripts
+#   command: "{{ java_cmd }} schema"
+#   args:
+#     stdin: |
+#       {{ iiq_admin_user }}
+#       {{ iiq_admin_password }}
+#   async: 1200
+#   poll: 5
+#   register: cmdout
+#   changed_when: cmdout.rc != 0
+
 - name: Fix create user statement for MariaDB
   replace:
-    path: "{{ identityiq_root }}/WEB-INF/database/create_identityiq_tables-{{ identityiq_version }}.mysql"
+    path: "{{ identityiq_root }}/WEB-INF/database/create_identityiq_tables.mysql"
     regexp: 'WITH mysql_native_password '
     replace: ''
 
@@ -45,7 +87,7 @@
   mysql_db:
     name: identityiq
     state: import
-    target: "{{ identityiq_root }}/WEB-INF/database/create_identityiq_tables-{{ identityiq_version }}.mysql"
+    target: "{{ identityiq_root }}/WEB-INF/database/create_identityiq_tables.mysql"
 
 - name: Copy log4j2.properties file
   template:
@@ -59,6 +101,11 @@
     dest: "{{ identityiq_root }}/WEB-INF/classes/"
     mode: '0644'
   notify: restart tomcat
+
+- name: Make iiq script executable
+  file:
+    dest: "{{ identityiq_root }}/WEB-INF/bin/iiq"
+    mode: u+x
 
 - name: Pause for 5 seconds
   ansible.builtin.pause:
@@ -86,31 +133,28 @@
   register: cmdout
   changed_when: cmdout.rc != 0
 
-- name: Patch identityiq web
-  unarchive:
-    src: "identityiq-{{ identityiq_version }}{{ identityiq_patch_version }}.jar"
-    dest: "{{ identityiq_root }}/"
-  when: 
-    - identityiq_patch_version is defined
+# create war should have done this
+# - name: Patch identityiq web
+#   unarchive:
+#     src: "identityiq-{{ identityiq_version }}{{ identityiq_patch_version }}.jar"
+#     dest: "{{ identityiq_root }}/"
+#   when: 
+#     - identityiq_patch_version is defined
 
-- name: Patch identityiq database
-  mysql_db:
-    name: identityiq
-    state: import
-    target: "{{ identityiq_root }}/WEB-INF/database/upgrade_identityiq_tables-{{ identityiq_version }}{{ identityiq_patch_version }}.mysql"
-  when: 
-    - identityiq_patch_version is defined
+# This should have been by the iiq schema and SSB script
+# - name: Patch identityiq database
+#   mysql_db:
+#     name: identityiq
+#     state: import
+#     target: "{{ identityiq_root }}/WEB-INF/database/upgrade_identityiq_tables-{{ identityiq_version }}{{ identityiq_patch_version }}.mysql"
+#   when: 
+#     - identityiq_patch_version is defined
 
-- name: Patch IIQ
-  command: "{{ java_cmd }} patch {{ identityiq_version }}{{ identityiq_patch_version }}"
-  when:
-    - identityiq_patch_version is defined
-  async: 1200
-  poll: 5
-  register: cmdout
-  changed_when: cmdout.rc != 0
-
-- name: restart tomcat
-  ansible.builtin.service:
-    name: "tomcat"
-    state: restarted
+# - name: Patch IIQ
+#   command: "{{ java_cmd }} patch {{ identityiq_version }}{{ identityiq_patch_version }}"
+#   when:
+#     - identityiq_patch_version is defined
+#   async: 1200
+#   poll: 5
+#   register: cmdout
+#   changed_when: cmdout.rc != 0

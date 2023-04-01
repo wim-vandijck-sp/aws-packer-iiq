@@ -3,7 +3,6 @@
   include_vars:
     file: secrets.yml
 
-
 - name: Generate hosts file
   ansible.builtin.template:
     src=hosts.j2
@@ -16,93 +15,113 @@
     owner: root
     group: root
     mode: '0644'
- 
-- name: Copy HR files over
+
+- name: Copy setup files for SERI
+  ansible.builtin.copy:
+    src: seri
+    dest: "{{ web_inf_dir }}/config/"
+    owner: tomcat
+    group: tomcat
+    mode: 664
+
+- name: Copy HR Resource files over
   ansible.builtin.copy: 
     src: HR
-    dest: /var/tmp/
+    dest: "{{ web_inf_dir }}/config/"
     owner: tomcat
     group: tomcat
     mode: '0644'
 
-- name: Copy LDAP files over
+- name: Copy LDAP Resource files over
   ansible.builtin.copy: 
     src: EnterpriseDirectory
-    dest: /var/tmp/
+    dest: "{{ web_inf_dir }}/config/"
     owner: tomcat
     group: tomcat
     mode: '0644'
 
-- name: Setup HR App
-  command: "{{ java_cmd }} console iiqBeans -c \"import setup.xml\""
-  args:
-    chdir: /var/tmp/HR
-    stdin: |
-      {{ iiq_admin_user }}
-      {{ iiq_admin_password }}
-  async: 1200
-  poll: 5
-  register: cmdout
-  changed_when: cmdout.rc != 0
+- name: Copy seri init file
+  ansible.builtin.copy: 
+    src: init-seri.xml
+    dest: "{{ web_inf_dir }}/config/"
+    owner: tomcat
+    group: tomcat
+    mode: '0644'
 
-- name: Aggregate HR App
-  command: "{{ java_cmd }} console iiqBeans -c \"run 'Aggregate HR Authoritative'\""
-  args:
-    chdir: /var/tmp/HR
-    stdin: |
-      {{ iiq_admin_user }}
-      {{ iiq_admin_password }}
-  async: 1200
-  poll: 5
-  register: cmdout
-  changed_when: cmdout.rc != 0
+- name: Copy iiq setup script
+  ansible.builtin.copy: 
+    src: iiq-setup
+    dest: "{{ web_inf_dir }}/config/"
+    owner: tomcat
+    group: tomcat
+    mode: '0644'
 
-- name: Run refresh
-  command: "{{ java_cmd }} console iiqBeans -c \"run 'Maintain Manager Hierarchy'\""
-  args:
-    chdir: /var/tmp/HR
-    stdin: |
-      {{ iiq_admin_user }}
-      {{ iiq_admin_password }}
-  async: 1200
-  poll: 5
-  register: cmdout
-  changed_when: cmdout.rc != 0
+# - name: Import IIQ setup
+#   ansible.builtin.shell:
+#     chdir: "{{ web_inf_dir }}/bin/"
+#     cmd: "{{ java_cmd }} console iiqBeans -c \"import init-seri.xml\""
+#     stdin: |
+#       {{ iiq_admin_user }}
+#       {{ iiq_admin_password }}
+#   async: 1200
+#   poll: 5
+#   register: cmdout
+#   changed_when: cmdout.rc != 0
 
-- name: Setup LDAP App
-  command: "{{ java_cmd }} console iiqBeans -c \"import setup.xml\""
-  args:
-    chdir: /var/tmp/EnterpriseDirectory
-    stdin: |
-      {{ iiq_admin_user }}
-      {{ iiq_admin_password }}
-  async: 1200
-  poll: 5
-  register: out
-  changed_when: out.rc != 0
+- name: Copy hibernation files for SERI
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ web_inf_dir }}/classes/sailpoint/object/"
+    owner: sailpoint
+    group: sailpoint
+    mode: 664
+  with_fileglob:
+    - hibernate/*
 
-- name: Aggregate LDAP Accounts
-  command: "{{ java_cmd }} console iiqBeans -c \"run 'Aggregate Enterprise Directory Accounts'\""
-  args:
-    chdir: /var/tmp/EnterpriseDirectory
-    stdin: |
-      {{ iiq_admin_user }}
-      {{ iiq_admin_password }}
-  async: 1200
-  poll: 5
-  register: cmdout
-  changed_when: cmdout.rc != 0
+# - name: Make schema additions
+#   ansible.builtin.shell: 
+#     cmd: "{{ java_cmd }} extendedSchema"
+#     chdir: "{{ web_inf_dir }}/bin"
+#     stdin: |
+#       {{ iiq_admin_user }}
+#       {{ iiq_admin_password }}
+#   async: 1200
+#   poll: 5
+#   register: out
+#   changed_when: out.rc != 0
 
-- name: Aggregate LDAP Groups
-  command: "{{ java_cmd }} console iiqBeans -c \"run 'Aggregate Enterprise Directory Groups'\""
-  args:
-    chdir: /var/tmp/EnterpriseDirectory
-    stdin: |
-      {{ iiq_admin_user }}
-      {{ iiq_admin_password }}
-  async: 1200
-  poll: 5
-  register: cmdout
-  changed_when: cmdout.rc != 0
+#alter table identityiq.spt_application add extended1 varchar(450);
+# - name: Fix sql statements in schema extension (alter table)
+#   ansible.builtin.replace:
+#     path: "{{ web_inf_dir }}/database/add_identityiq_extensions.mysql"
+#     regexp: 'alter table (.*) add (\w+) (varchar\(.*\);)$'
+#     replace: 'alter table \1 add IF NOT EXISTS \2 \3'
 
-# - name: Import SERI Identity ObjectConfig
+# - name: Fix sql statements in schema extension (create index)
+#   ansible.builtin.replace:
+#     path: "{{ web_inf_dir }}/database/add_identityiq_extensions.mysql"
+#     regexp: '(create index) (.*)$'
+#     replace: '\1 IF NOT EXISTS \2'
+
+# - name: Extend database schema
+#   mysql_db:
+#     name: identityiq
+#     state: import
+#     force: true
+#     target: "{{ web_inf_dir }}/database/add_identityiq_extensions.mysql"
+
+# - name: restart tomcat
+#   ansible.builtin.service:
+#     name: "tomcat"
+#     state: restarted
+    
+# - name: Run setup tasks
+#   ansible.builtin.shell: 
+#     cmd: "{{ java_cmd }} console iiqBeans -c \"run 'Setup Task'\""
+#     stdin: |
+#       {{ iiq_admin_user }}
+#       {{ iiq_admin_password }}
+#   async: 1200
+#   poll: 5
+#   register: cmdout
+#   changed_when: cmdout.rc != 0

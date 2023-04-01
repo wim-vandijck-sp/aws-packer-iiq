@@ -1,6 +1,6 @@
 ---
-- name: "Build war file"
-  ansible.builtin.include_tasks: build_war.yml
+# - name: "Build war file"
+#   ansible.builtin.include_tasks: build_war.yml
 
 - name: "Install IIQ"
   ansible.builtin.include_tasks: install.yml

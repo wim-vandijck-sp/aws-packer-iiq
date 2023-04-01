@@ -94,17 +94,6 @@
     group: sailpoint
     mode: '0644'
 
-- name: Copy hibernation files for SERI
-  ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: "{{ git_dest }}/web/WEB-INF/classes/sailpoint/object/"
-    owner: sailpoint
-    group: sailpoint
-    mode: 664
-  with_fileglob:
-    - hibernate/*
-  when: serify == "yes"
-
 - name: ensure build.sh is executable
   ansible.builtin.file: 
     path: "{{ git_dest }}/build.sh"

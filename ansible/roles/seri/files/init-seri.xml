@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE sailpoint PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<sailpoint>
+  <ImportAction name="include" value="seri/TaskDefinition - Setup Task.xml"/>
+
+  <!-- Pull in Identity Object Config  -->
+  <ImportAction name="include" value="seri/ObjectConfig-Identity-Base-SERI.xml"/>
+  <ImportAction name="include" value="seri/ObjectConfig-Identity.xml"/>
+  <ImportAction name="include" value="seri/UIConfig-SERI.xml"/>
+  <!-- 
+  <ImportAction name='include' value='HR/setup.xml'/>
+  <ImportAction name='include' value='EnterpriseDirectory/setup.xml'/>
+  -->
+
+  <!-- Import HR -->
+  <ImportAction name='include' value='HR/Workgroups.xml'/>
+  <ImportAction name='include' value='HR/Rule-I18nLibrary.xml'/>
+  <ImportAction name='include' value='HR/Rule-Correlation-EmployeeID.xml'/>
+  <ImportAction name='include' value='HR/Rule-IdentityCreation-HumanResources.xml'/>
+
+  <!-- Rules for Date IdentityAttributes.  StartDate and EndDate need to be converted from string.  Will store as epoch timestamp -->
+  <ImportAction name='include' value='HR/Rule-ConvertStartDateToDate.xml'/>
+  <ImportAction name='include' value='HR/Rule-ConvertEndDateToDate.xml'/>
+  
+  <!-- Rule for JobTitle Change -->
+  <ImportAction name='include' value='HR/Rule-JobTitleChange.xml'/>
+
+  <!-- Return IIQDisabled=true when term=true so UI will show correct value for "Status" column -->
+  <ImportAction name='include' value='HR/Rule-Customization-HumanResources.xml'/>
+
+  <ImportAction name='include' value='HR/Application-HR.xml'/>
+
+  <!-- Merge in the extended identity attributes that map to the HR apps we're importing  -->
+  <ImportAction name='include' value='HR/ObjectConfig-Identity.xml'/>
+
+  <!-- Merge in update to identityViewAttributes to reflect the extended identity attributes we've added -->
+  <ImportAction name='include' value='HR/UIConfig-SERI.xml'/>
+
+  <ImportAction name='include' value='HR/TaskDefinition-AggregateHRM.xml'/>
+  <ImportAction name='include' value='HR/TaskDefinition-DeltaAggregation.xml'/>
+
+  <!-- Import Identity Refresh task for performing manager correlation based on HR sources -->
+  <ImportAction name='include' value='HR/TaskDefinition-IdentityRefresh-ManagerCorrelation.xml'/>
+
+  <ImportAction name='include' value='HR/LocalizedAttribute-HR.xml'/>
+  
+  <!-- Import rule used to identify 'userType' as 'Employee' or 'Contractor' -->
+  <ImportAction name='include' value='HR/Rule-IdentityAttribute-EmployeeTypeDeterminer.xml'/>
+
+  <!-- Import FTO-related artifacts -->
+  <ImportAction name='include' value='HR/Workflow-DisableAllAccounts.xml'/>
+  <ImportAction name='include' value='HR/Workflow-EnableAllAccounts.xml'/>
+  <ImportAction name='include' value='HR/Rule-FTOChangeRule.xml'/>
+  <ImportAction name='include' value='HR/Rule-SetlifecycleState.xml'/>
+
+  <!-- Import LDAP -->
+  <ImportAction name='include' value='EnterpriseDirectory/CorrelationConfig-EnterpriseDirectory.xml'/>
+  <ImportAction name='include' value='EnterpriseDirectory/Application-LDAP.xml'/>
+  <ImportAction name='include' value='EnterpriseDirectory/TaskDefinition-AA-EnterpriseDirectory.xml'/>
+  <ImportAction name='include' value='EnterpriseDirectory/TaskDefinition-AGA-EnterpriseDirectory.xml'/>
+  <ImportAction name='include' value='EnterpriseDirectory/LocalizedAttribute-EnterpriseDirectory.xml'/>
+
+  <!-- 
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-HR/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-OracleEBS/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-RACF/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-ActiveDirectory/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-AzureActiveDirectory/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-ServiceNow/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-TRAKK/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-TRAKK-WS/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-PRISM/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-MSSQLServer/Application-MssqlServer.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-FileAccessManager/setup.xml' />
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Utility-DisablePassThrough/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Utility-SODImporter/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Utility-ChallengeAnswerImporter/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Utility-RoleImporter/setup.xml'/>
+
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Utility-PluginLoader/setup.xml'/>
+  
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Connector-SOAP/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-ERPPortal/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Demo-Standard/setup.xml'/>
+  <ImportAction name='include' value='seri/catalog/CoreDemo/Resource-RapidSetup/setup.xml'/>
+   
+
+  
+  <ImportAction name="include" value="seri/xml/Configuration/Configuration-Identityaiconfiguration.xml"/>
+  <ImportAction name="include" value="seri/xml/Configuration/Configuration-IAI-MockRecommenderSetup.xml"/>
+  -->
+</sailpoint>

@@ -43,8 +43,8 @@
 <property name="company" type="string" length="128"
           access="sailpoint.persistence.ExtendedPropertyAccessor"
           index="spt_identity_company_ci"/>
-          <property name="botdescription" type="string" length="128"
-          access="sailpoint.persistence.ExtendedPropertyAccessor"
-          index="spt_identity_botdescription_ci"/>
+<property name="botdescription" type="string" length="128"
+access="sailpoint.persistence.ExtendedPropertyAccessor"
+index="spt_identity_botdescription_ci"/>
   
             
