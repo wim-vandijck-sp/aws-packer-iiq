@@ -1,6 +1,6 @@
 ---
 - name: bootstrap IIQ host
-  hosts: aws-iiq
+  hosts: localhost
   become: true
   gather_facts: true
   vars_files:
