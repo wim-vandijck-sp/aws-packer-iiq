@@ -36,14 +36,6 @@
     mode: '0644'
   when: identityiq_patch_version is defined
 
-- name: Copy iiq.properties file
-  ansible.builtin.template: 
-    src: "iiq.properties.j2"
-    dest: "{{ home_location }}"
-    owner: sailpoint
-    group: sailpoint
-    mode: '0644'
-
 - name: Extract installer file
   unarchive: 
     src: "{{ home_location }}/identityiq-{{ identityiq_version }}.zip"
@@ -79,7 +71,7 @@
 
 - name: Fix create user statement for MariaDB
   replace:
-    path: "{{ identityiq_root }}/WEB-INF/database/create_identityiq_tables.mysql"
+    path: "{{ identityiq_root }}/WEB-INF/database/create_identityiq_tables-{{ identityiq_version }}.mysql"
     regexp: 'WITH mysql_native_password '
     replace: ''
 
@@ -87,7 +79,7 @@
   mysql_db:
     name: identityiq
     state: import
-    target: "{{ identityiq_root }}/WEB-INF/database/create_identityiq_tables.mysql"
+    target: "{{ identityiq_root }}/WEB-INF/database/create_identityiq_tables-{{ identityiq_version }}.mysql"
 
 - name: Copy log4j2.properties file
   template:
