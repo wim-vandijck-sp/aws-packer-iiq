@@ -1,6 +1,6 @@
 ---
 - name: bootstrap IIQ host
-  hosts: localhost
+  hosts: all
   become: true
   gather_facts: true
   vars_files:
