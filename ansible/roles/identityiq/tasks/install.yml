@@ -46,7 +46,7 @@
 
 - name: Extract installer file
   unarchive: 
-    src: "{{ home_location }}/identityiq.zip"
+    src: "{{ home_location }}/identityiq-{{ identityiq_version }}.zip"
     remote_src: yes
     dest: "{{ home_location }}/identityiq"
 
