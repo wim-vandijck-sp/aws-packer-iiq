@@ -56,72 +56,78 @@
     group: tomcat
     mode: '0644'
 
-# - name: Import IIQ setup
-#   ansible.builtin.shell:
-#     chdir: "{{ web_inf_dir }}/bin/"
-#     cmd: "{{ java_cmd }} console iiqBeans -c \"import init-seri.xml\""
-#     stdin: |
-#       {{ iiq_admin_user }}
-#       {{ iiq_admin_password }}
-#   async: 1200
-#   poll: 5
-#   register: cmdout
-#   changed_when: cmdout.rc != 0
+- name: Import IIQ setup
+  ansible.builtin.shell:
+    chdir: "{{ web_inf_dir }}/bin/"
+    cmd: "{{ java_cmd }} console iiqBeans -c \"import init-seri.xml\""
+    stdin: |
+      {{ iiq_admin_user }}
+      {{ iiq_admin_password }}
+  async: 1200
+  poll: 5
+  register: cmdout
+  changed_when: cmdout.rc != 0
 
-- name: Copy hibernation files for SERI
-  ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: "{{ web_inf_dir }}/classes/sailpoint/object/"
-    owner: sailpoint
-    group: sailpoint
-    mode: 664
-  with_fileglob:
-    - hibernate/*
+- name: Update Identity hibernate file
+  blockinfile:
+    path: "{{ web_inf_dir }}/classes/sailpoint/object/IdentityExtended.hbm.xml"
+    marker: "<!-- {mark} ANSIBLE MANAGED BLOCK -->"
+    block: "{{ lookup('file', 'hibernate/IdentityExtended.hbm.xml') }}"
 
-# - name: Make schema additions
-#   ansible.builtin.shell: 
-#     cmd: "{{ java_cmd }} extendedSchema"
-#     chdir: "{{ web_inf_dir }}/bin"
-#     stdin: |
-#       {{ iiq_admin_user }}
-#       {{ iiq_admin_password }}
-#   async: 1200
-#   poll: 5
-#   register: out
-#   changed_when: out.rc != 0
+- name: Update Bundle hibernate file
+  blockinfile:
+    path: "{{ web_inf_dir }}/classes/sailpoint/object/BundleExtended.hbm.xml"
+    marker: "<!-- {mark} ANSIBLE MANAGED BLOCK -->"
+    block: "{{ lookup('file', 'hibernate/BundleExtended.hbm.xml') }}"
 
-#alter table identityiq.spt_application add extended1 varchar(450);
-# - name: Fix sql statements in schema extension (alter table)
-#   ansible.builtin.replace:
-#     path: "{{ web_inf_dir }}/database/add_identityiq_extensions.mysql"
-#     regexp: 'alter table (.*) add (\w+) (varchar\(.*\);)$'
-#     replace: 'alter table \1 add IF NOT EXISTS \2 \3'
+- name: Update CertificationItem hibernate file
+  blockinfile:
+    path: "{{ web_inf_dir }}/classes/sailpoint/object/CertificationItemExtended.hbm.xml"
+    marker: "<!-- {mark} ANSIBLE MANAGED BLOCK -->"
+    block: "{{ lookup('file', 'hibernate/CertificationItemExtended.hbm.xml') }}"
 
-# - name: Fix sql statements in schema extension (create index)
-#   ansible.builtin.replace:
-#     path: "{{ web_inf_dir }}/database/add_identityiq_extensions.mysql"
-#     regexp: '(create index) (.*)$'
-#     replace: '\1 IF NOT EXISTS \2'
+- name: Update Link hibernate file
+  blockinfile:
+    path: "{{ web_inf_dir }}/classes/sailpoint/object/LinkExtended.hbm.xml"
+    marker: "<!-- {mark} ANSIBLE MANAGED BLOCK -->"
+    block: "{{ lookup('file', 'hibernate/LinkExtended.hbm.xml') }}"
 
-# - name: Extend database schema
-#   mysql_db:
-#     name: identityiq
-#     state: import
-#     force: true
-#     target: "{{ web_inf_dir }}/database/add_identityiq_extensions.mysql"
+- name: Stop app server
+  ansible.builtin.service:
+    name: "tomcat"
+    state: stopped
 
-# - name: restart tomcat
-#   ansible.builtin.service:
-#     name: "tomcat"
-#     state: restarted
+- name: Make schema additions
+  ansible.builtin.shell: 
+    cmd: "./iiq extendedSchema"
+    chdir: "{{ web_inf_dir }}/bin"
+    stdin: |
+      {{ iiq_admin_user }}
+      {{ iiq_admin_password }}
+  async: 1200
+  poll: 5
+  register: out
+  changed_when: out.rc != 0
+
+- name: Extend database schema
+  mysql_db:
+    name: identityiq
+    state: import
+    force: true
+    target: "{{ web_inf_dir }}/database/add_identityiq_extensions.mysql"
+
+- name: restart tomcat
+  ansible.builtin.service:
+    name: "tomcat"
+    state: started
     
-# - name: Run setup tasks
-#   ansible.builtin.shell: 
-#     cmd: "{{ java_cmd }} console iiqBeans -c \"run 'Setup Task'\""
-#     stdin: |
-#       {{ iiq_admin_user }}
-#       {{ iiq_admin_password }}
-#   async: 1200
-#   poll: 5
-#   register: cmdout
-#   changed_when: cmdout.rc != 0
+- name: Run setup tasks
+  ansible.builtin.shell: 
+    cmd: "{{ java_cmd }} console iiqBeans -c \"run 'Setup Task'\""
+    stdin: |
+      {{ iiq_admin_user }}
+      {{ iiq_admin_password }}
+  async: 1200
+  poll: 5
+  register: cmdout
+  changed_when: cmdout.rc != 0

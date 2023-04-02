@@ -3,6 +3,16 @@
   include_vars:
     file: secrets.yml
 
+- name: Stop app server
+  ansible.builtin.service:
+    name: "tomcat"
+    state: stopped
+
+- name: Remove identityiq application folder
+  file:
+    path: "{{ identityiq_root }}"
+    state: absent
+
 - name: Create identityiq application folder
   file:
     path: "{{ identityiq_root }}"
@@ -58,17 +68,6 @@
     name: identityiq
     state: present
 
-# - name: Create DB create scripts
-#   command: "{{ java_cmd }} schema"
-#   args:
-#     stdin: |
-#       {{ iiq_admin_user }}
-#       {{ iiq_admin_password }}
-#   async: 1200
-#   poll: 5
-#   register: cmdout
-#   changed_when: cmdout.rc != 0
-
 - name: Fix create user statement for MariaDB
   replace:
     path: "{{ identityiq_root }}/WEB-INF/database/create_identityiq_tables-{{ identityiq_version }}.mysql"
@@ -90,7 +89,7 @@
 - name: Copy iiq.properties file
   template:
     src: "iiq.properties.j2"
-    dest: "{{ identityiq_root }}/WEB-INF/classes/"
+    dest: "{{ identityiq_root }}/WEB-INF/classes/iiq.properties"
     mode: '0644'
   notify: restart tomcat
 
@@ -125,28 +124,28 @@
   register: cmdout
   changed_when: cmdout.rc != 0
 
-# create war should have done this
-# - name: Patch identityiq web
-#   unarchive:
-#     src: "identityiq-{{ identityiq_version }}{{ identityiq_patch_version }}.jar"
-#     dest: "{{ identityiq_root }}/"
-#   when: 
-#     - identityiq_patch_version is defined
+- name: Patch identityiq web
+  unarchive:
+    src: "{{ home_location }}/identityiq-{{ identityiq_version }}{{ identityiq_patch_version }}.jar"
+    remote_src: true
+    dest: "{{ identityiq_root }}/"
+  when: 
+    - identityiq_patch_version is defined
 
-# This should have been by the iiq schema and SSB script
-# - name: Patch identityiq database
-#   mysql_db:
-#     name: identityiq
-#     state: import
-#     target: "{{ identityiq_root }}/WEB-INF/database/upgrade_identityiq_tables-{{ identityiq_version }}{{ identityiq_patch_version }}.mysql"
-#   when: 
-#     - identityiq_patch_version is defined
+- name: Patch identityiq database
+  mysql_db:
+    name: identityiq
+    state: import
+    target: "{{ identityiq_root }}/WEB-INF/database/upgrade_identityiq_tables-{{ identityiq_version }}{{ identityiq_patch_version }}.mysql"
+  when: 
+    - identityiq_patch_version is defined
 
-# - name: Patch IIQ
-#   command: "{{ java_cmd }} patch {{ identityiq_version }}{{ identityiq_patch_version }}"
-#   when:
-#     - identityiq_patch_version is defined
-#   async: 1200
-#   poll: 5
-#   register: cmdout
-#   changed_when: cmdout.rc != 0
+- name: Patch IIQ
+  command: "{{ java_cmd }} patch {{ identityiq_version }}{{ identityiq_patch_version }}"
+  when:
+    - identityiq_patch_version is defined
+  async: 1200
+  poll: 5
+  register: cmdout
+  changed_when: cmdout.rc != 0
+  notify: restart tomcat
