@@ -149,3 +149,11 @@
   register: cmdout
   changed_when: cmdout.rc != 0
   notify: restart tomcat
+
+- name: Change ownership to tomcat
+  ansible.builtin.file:
+    path: /opt/tomcat
+    state: directory
+    recurse: yes
+    owner: tomcat
+    group: tomcat
