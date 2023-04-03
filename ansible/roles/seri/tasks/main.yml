@@ -23,6 +23,7 @@
     owner: tomcat
     group: tomcat
     mode: 664
+    directory_mode: 774
 
 - name: Copy HR Resource files over
   ansible.builtin.copy: 
@@ -31,6 +32,8 @@
     owner: tomcat
     group: tomcat
     mode: '0644'
+    directory_mode: 774
+
 
 - name: Copy LDAP Resource files over
   ansible.builtin.copy: 
@@ -39,6 +42,8 @@
     owner: tomcat
     group: tomcat
     mode: '0644'
+    directory_mode: 774
+
 
 - name: Copy seri init file
   ansible.builtin.copy: 
