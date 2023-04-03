@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE sailpoint PUBLIC "sailpoint.dtd" "sailpoint.dtd">
 <sailpoint>
-  <ImportAction name="include" value="seri/TaskDefinition-Setup Task.xml"/>
+  <ImportAction name="include" value="seri/TaskDefinition-SetupTask.xml"/>
 
   <!-- Pull in Identity Object Config  -->
   <ImportAction name="include" value="seri/ObjectConfig-Identity-Base-SERI.xml"/>
