@@ -13,16 +13,16 @@ phases:
       - echo "Installing ansible"
       - pip install ansible
       - echo "Installing Packer"
-      - curl -qL -o packer.zip https://releases.hashicorp.com/packer/1.8.6/packer_1.8.6_linux_amd64.zip && unzip packer.zip
+      - curl -qL -o packer.zip https://releases.hashicorp.com/packer/1.11.2/packer_1.11.2_linux_amd64.zip && unzip packer.zip
   pre_build:
     commands:
       - echo "Copying IIQ install files"
       - aws s3 cp s3://codebuild-iiq-installer-files/identityiq-8.3.zip ansible/roles/identityiq/files/
       - aws s3 cp s3://codebuild-iiq-installer-files/identityiq-8.3p2.jar ansible/roles/identityiq/files/
       - echo "Copying packer plugin from S3 to avoid limit rate"
-      - aws s3 cp s3://codebuild-iiq-installer-files/packer-plugin-amazon_v1.2.1_x5.0_linux_amd64.zip .
-      - unzip packer-plugin-amazon_v1.2.1_x5.0_linux_amd64.zip && rm packer-plugin-amazon_v1.2.1_x5.0_linux_amd64.zip
-      - mkdir -p /root/.config/packer/plugins/github.com/hashicorp/amazon/ && mv packer-plugin-amazon_v1.2.1_x5.0_linux_amd64 /root/.config/packer/plugins/github.com/hashicorp/amazon/packer-plugin-amazon_v1.2.1_x5.0_linux_amd64
+      - aws s3 cp s3://codebuild-iiq-installer-files/packer-plugin-amazon_v1.3.3_x5.0_linux_amd64.zip .
+      - unzip packer-plugin-amazon_v1.3.3_x5.0_linux_amd64.zip && rm packer-plugin-amazon_v1.3.3_x5.0_linux_amd64.zip
+      - mkdir -p /root/.config/packer/plugins/github.com/hashicorp/amazon/ && mv packer-plugin-amazon_v1.3.3_x5.0_linux_amd64 /root/.config/packer/plugins/github.com/hashicorp/amazon/packer-plugin-amazon_v1.3.3_x5.0_linux_amd64
       # - echo "Updating the repository"
       # - apt-get update -y
       - echo "Packer init"
@@ -32,5 +32,5 @@ phases:
 
   build:
     commands:
-       - echo "Building the Packer template"
-       - ./packer build packer.pkr.hcl
+      - echo "Building the Packer template"
+      - ./packer build packer.pkr.hcl

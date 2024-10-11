@@ -8,14 +8,14 @@ packer {
 }
 
 source "amazon-ebs" "iiq-ami" {
-  ami_name = "iiq-testbuild-ami"
-  ami_description = "Test Build for Automated IIQ Image"
+  ami_name              = "iiq-testbuild-ami"
+  ami_description       = "Test Build for Automated IIQ Image"
   force_deregister      = "true"
   force_delete_snapshot = "true"
-  instance_type = "t2.medium"
-  region        = "us-east-1"
-  source_ami    = "ami-0fec2c2e2017f4e7b"
-  ssh_username  = "admin"
+  instance_type         = "t2.medium"
+  region                = "us-east-1"
+  source_ami            = "ami-0fec2c2e2017f4e7b"
+  ssh_username          = "admin"
   // profile       = "aws-profile-name"
   skip_region_validation = "true"
   tags = {
@@ -29,8 +29,8 @@ build {
     playbook_file = "ansible/playbook.yml"
     galaxy_file   = "ansible/roles/requirements.yml"
     user          = "admin"
-    ansible_env_vars = [
-      "ANSIBLE_SSH_ARGS='-o PubkeyAcceptedKeyTypes=+ssh-rsa -o HostkeyAlgorithms=+ssh-rsa'"
+    "ansible_ssh_extra_args" : [
+      "-oHostKeyAlgorithms=+ssh-rsa -oPubkeyAcceptedKeyTypes=+ssh-rsa"
     ]
     extra_arguments = [
       "--vault-password-file", "./vaultpasswordfile",
