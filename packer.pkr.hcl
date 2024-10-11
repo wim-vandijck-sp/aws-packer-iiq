@@ -29,11 +29,9 @@ build {
     playbook_file = "ansible/playbook.yml"
     galaxy_file   = "ansible/roles/requirements.yml"
     user          = "admin"
-    ansible_ssh_extra_args : [
-      "-oHostKeyAlgorithms=+ssh-rsa -oPubkeyAcceptedKeyTypes=+ssh-rsa"
-    ]
     extra_arguments = [
       "--vault-password-file", "./vaultpasswordfile",
+      "--ssh-extra-args", "-o IdentitiesOnly=yes -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedAlgorithms=+ssh-rsa",
       "--extra-vars", "java_version=11 java_default_version=11"
     ]
   }
