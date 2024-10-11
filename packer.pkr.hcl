@@ -29,7 +29,7 @@ build {
     playbook_file = "ansible/playbook.yml"
     galaxy_file   = "ansible/roles/requirements.yml"
     user          = "admin"
-    "ansible_ssh_extra_args" : [
+    ansible_ssh_extra_args : [
       "-oHostKeyAlgorithms=+ssh-rsa -oPubkeyAcceptedKeyTypes=+ssh-rsa"
     ]
     extra_arguments = [
