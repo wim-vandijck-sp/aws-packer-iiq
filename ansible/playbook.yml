@@ -57,7 +57,7 @@
       vars:
         include_group_management: "no"
     - role: 389-ds
-    - role: robertdebock.php
-    - role: orangehrm
-      orangehrm_version: "5.3"
-    - role: seri
+    # - role: robertdebock.php
+    # - role: orangehrm
+    #   orangehrm_version: "5.3"
+    # - role: seri
