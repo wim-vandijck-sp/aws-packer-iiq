@@ -21,7 +21,7 @@ phases:
       - aws s3 cp s3://codebuild-iiq-installer-files/identityiq-8.3p2.jar ansible/roles/identityiq/files/
       - echo "Copying packer plugin from S3 to avoid limit rate"
       - aws s3 cp s3://codebuild-iiq-installer-files/packer-plugin-amazon_v1.3.3_x5.0_linux_amd64.zip .
-      - unzip packer-plugin-amazon_v1.3.3_x5.0_linux_amd64.zip && rm packer-plugin-amazon_v1.3.3_x5.0_linux_amd64.zip
+      - unzip -o packer-plugin-amazon_v1.3.3_x5.0_linux_amd64.zip && rm packer-plugin-amazon_v1.3.3_x5.0_linux_amd64.zip
       - mkdir -p /root/.config/packer/plugins/github.com/hashicorp/amazon/ && mv packer-plugin-amazon_v1.3.3_x5.0_linux_amd64 /root/.config/packer/plugins/github.com/hashicorp/amazon/packer-plugin-amazon_v1.3.3_x5.0_linux_amd64
       # - echo "Updating the repository"
       # - apt-get update -y
