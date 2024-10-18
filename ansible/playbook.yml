@@ -21,9 +21,6 @@
       vars:
         update_reboot: no
     - role: robertdebock.java
-      vars:
-        java_version: 11
-        java_default_version: 11
     - role: robertdebock.tomcat
       vars:
         tomcat_version: 9
