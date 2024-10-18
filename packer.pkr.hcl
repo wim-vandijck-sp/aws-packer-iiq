@@ -35,8 +35,7 @@ build {
     user          = "admin"
     extra_arguments = [
       "--vault-password-file", "./vaultpasswordfile",
-      "--ssh-extra-args", "-o IdentitiesOnly=yes -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedAlgorithms=+ssh-rsa",
-      "--extra-vars", "java_version=11 java_default_version=11"
+      "--ssh-extra-args", "-o IdentitiesOnly=yes -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedAlgorithms=+ssh-rsa"
     ]
   }
 
