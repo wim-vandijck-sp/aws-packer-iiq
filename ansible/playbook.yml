@@ -5,9 +5,6 @@
   gather_facts: true
   vars_files:
     - "vault/main.yml"
-  vars:
-    java_version: 11
-    java_default_version: 11
 
   roles:
     - role: init
